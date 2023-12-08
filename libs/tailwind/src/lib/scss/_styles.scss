@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply am-font-cairo am-font-300;
+  }
+
+  *:focus {
+    @apply am-outline-0;
+  }
+
+  html,
+  body {
+    @apply am-h-full;
+  }
+}

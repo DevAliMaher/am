@@ -1,14 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Link, Route, Routes } from 'react-router-dom';
+
 import styles from './app.module.scss';
-
-import NxWelcome from './nx-welcome';
-
-import { Route, Routes, Link } from 'react-router-dom';
 
 export function App() {
   return (
-    <div>
-      <NxWelcome title="react" />
+    <>
+      <p className="am-text-red-800">test tailwind</p>
 
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
@@ -46,7 +43,7 @@ export function App() {
         />
       </Routes>
       {/* END: routes */}
-    </div>
+    </>
   );
 }
 

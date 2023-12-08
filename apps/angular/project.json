@@ -16,7 +16,15 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/angular/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/angular/src/favicon.ico", "apps/angular/src/assets"],
+        "assets": [
+          "apps/angular/src/favicon.ico",
+          "apps/angular/src/assets",
+          {
+            "glob": "**/*",
+            "input": "libs/assets/src/lib",
+            "output": "assets"
+          }
+        ],
         "styles": ["apps/angular/src/styles.scss"],
         "scripts": [],
         "server": "apps/angular/src/main.server.ts",

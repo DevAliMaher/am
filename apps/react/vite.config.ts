@@ -1,13 +1,14 @@
 /// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { UserConfigExport, defineConfig } from 'vite';
+
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/react',
 
   server: {
-    port: 4200,
+    port: 4300,
     host: 'localhost',
   },
 
@@ -31,4 +32,4 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
-});
+} as UserConfigExport);

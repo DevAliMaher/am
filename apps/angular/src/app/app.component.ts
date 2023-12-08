@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [RouterModule],
   selector: 'am-root',
   templateUrl: './app.component.html',
-  styles: ``,
+  host: {
+    class: 'am-block am-h-full',
+  },
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'angular';
+  http = inject(HttpClient);
+
+  ngOnInit(): void {
+    this.http.get('api/v1/products').subscribe({
+      next: (v) => console.log(v),
+    });
+  }
 }

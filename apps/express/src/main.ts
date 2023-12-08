@@ -1,21 +1,41 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+import app from './app';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
-import express from 'express';
-import * as path from 'path';
+process.on('uncaughtException', (error) => {
+  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+  console.log(error.name, error.message);
+  process.exit(1);
+});
 
-const app = express();
+dotenv.config({ path: './config.env' });
 
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+const DB = process.env.DATABASE?.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD as string
+) as string;
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to express!' });
+mongoose.connect(DB).then((conection) => {
+  if (process.env.NODE_ENV === 'development') console.log('DB Connected...');
 });
 
 const port = process.env.PORT || 3333;
+
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+  console.log(`App running on port ${port}...`);
 });
-server.on('error', console.error);
+
+process.on('unhandledRejection', (error: Error) => {
+  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+  console.log(error.name, error.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+process.on('SIGTERM', () => {
+  console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
+  server.close(() => {
+    console.log('💥 Process terminated!');
+  });
+});

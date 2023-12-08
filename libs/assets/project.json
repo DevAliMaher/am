@@ -1,0 +1,43 @@
+{
+  "name": "assets",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/assets/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/assets",
+        "tsConfig": "libs/assets/tsconfig.lib.json",
+        "packageJson": "libs/assets/package.json",
+        "main": "libs/assets/src/index.ts",
+        "assets": [
+          "libs/assets/*.md",
+          "libs/assets/src/lib/i18n/*",
+          "libs/assets/src/lib/images/*",
+          "libs/assets/src/lib/svg/*"
+        ]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs assets {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/assets/**/*.ts", "libs/assets/package.json"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/assets/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["assets"]
+}
