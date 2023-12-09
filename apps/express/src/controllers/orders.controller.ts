@@ -4,7 +4,7 @@ import {
   RequestCustom,
   UpdateOrderQuantityBodyModel,
 } from '@am/models';
-import { NextFunction, Request, Response } from 'express';
+import { RequestHandler, RequestParamHandler } from 'express';
 import { readFileSync, writeFile } from 'fs';
 
 import { resolve } from 'path';
@@ -17,11 +17,11 @@ let userId: string;
 let orderId: number;
 let order: OrderModel | undefined;
 
-export const checkUserId = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-  // value: any,
+export const checkUserId: RequestParamHandler = (
+  req,
+  res,
+  next,
+  value: any
 ) => {
   userId = req.headers.userId as string;
   if (!userId) {
@@ -33,10 +33,10 @@ export const checkUserId = (
   next();
 };
 
-export const checkOrderId = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
+export const checkOrderId: RequestParamHandler = (
+  req,
+  res,
+  next,
   value: any
 ) => {
   orderId = +req.params.id;
@@ -50,11 +50,7 @@ export const checkOrderId = (
   next();
 };
 
-export const checkAddProductBody = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const checkAddProductBody: RequestHandler = (req, res, next) => {
   const body: AddOrderBodyModel = req.body;
   if (
     !userId ||
@@ -69,11 +65,7 @@ export const checkAddProductBody = (
   next();
 };
 
-export const checkPatchProductBody = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const checkPatchProductBody: RequestHandler = (req, res, next) => {
   const body: UpdateOrderQuantityBodyModel = req.body;
 
   if (!userId || !body.orderId || !body.productId || !body.quantity) {
@@ -85,7 +77,7 @@ export const checkPatchProductBody = (
   next();
 };
 
-export const getAllOrders = (req: RequestCustom, res: Response) => {
+export const getAllOrders: RequestHandler = (req: RequestCustom, res) => {
   res.status(200).json({
     status: 'success',
     requestedAt: req.requestTime,
@@ -94,7 +86,7 @@ export const getAllOrders = (req: RequestCustom, res: Response) => {
   });
 };
 
-export const getOrderById = (req: RequestCustom, res: Response) => {
+export const getOrderById: RequestHandler = (req: RequestCustom, res) => {
   res.status(200).json({
     status: 'success',
     requestedAt: req.requestTime,
@@ -102,7 +94,7 @@ export const getOrderById = (req: RequestCustom, res: Response) => {
   });
 };
 
-export const addOrder = (req: Request, res: Response) => {
+export const addOrder: RequestHandler = (req, res) => {
   const body: AddOrderBodyModel = req.body;
   const orderId = orders[orders.length - 1].orderId + 1;
   const orderDate = new Date().toString();
@@ -124,7 +116,7 @@ export const addOrder = (req: Request, res: Response) => {
   });
 };
 
-export const updateProductQuantity = (req: Request, res: Response) => {
+export const updateProductQuantity: RequestHandler = (req, res) => {
   const body: UpdateOrderQuantityBodyModel = req.body;
 
   const _order = orders.find((order) => order.orderId === body.orderId);

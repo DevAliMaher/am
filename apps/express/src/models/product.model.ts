@@ -3,10 +3,13 @@ import { Schema, model } from 'mongoose';
 import { ProductModel } from '@am/models';
 
 const productSchema = new Schema<ProductModel>({
-  productId: { type: Number, required: true },
-  productName: { type: String, required: true },
-  productPrice: { type: Number, required: true },
-  availablePieces: { type: Number, required: true },
+  productName: { type: String, required: true, unique: true },
+  productPrice: {
+    type: Number,
+    required: [true, 'A Product Must have a price'],
+    trim: true,
+  },
+  availablePieces: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now() },
   productImg: { type: String },
 });

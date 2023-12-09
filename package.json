@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:express": "yarn nx run express:serve",
+    "start:angular": "yarn nx run angular:serve",
+    "start:react": "yarn nx run react:serve",
+    "start:mean": "yarn nx run-many --target=serve --projects=express,angular",
+    "start:mern": "yarn nx run-many --target=serve --projects=express,react",
+    "graph": "yarn nx graph"
+  },
   "dependencies": {
     "@angular/animations": "~17.0.0",
     "@angular/common": "~17.0.0",
